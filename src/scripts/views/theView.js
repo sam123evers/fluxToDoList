@@ -1,55 +1,34 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import Banner from './components/banner'
 import STORE from '../store'
+import DisplayList from './displayList'
+import ACTIONS from '../actions'
 
 var TheView = React.createClass({
+	
 	getInitialState: function() {
 		return STORE.data
 	},
 
+	componentWillMount() {
+		STORE.on('dataUpdated', () => {
+			this.setState(STORE.data)
+		})	
+	},
+
 
 	render: function() {
-		console.log('theView render function')
+		
 		return (
 			<div className="the-view">
 				<Banner />
+				<DisplayList items={this.state.items} />
 				
 			</div>
 		)
 	}
 })
 
-var AllView = React.createClass({
-	render: function() {
-		console.log('AllView render function')
-		return(
-			<div className="all-view">
-				<div>allView!</div>
-			</div>
-		)
-	}
-})
-
-var DoneView = React.createClass({
-	render:function() {
-		return(
-			<div className="done-view">
-				<Banner />
-				<div>done view</div>
-			</div>
-		)
-	}
-})
-
-var UndoneView = React.createClass({
-	render: function() {
-		return(
-			<div className="undone-view">
-				<Banner />
-				<div>undone view</div>
-			</div>
-		)
-	}
-})
 
 export default TheView
